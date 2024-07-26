@@ -1,7 +1,11 @@
 const std = @import("std");
 const root = @import("root");
 const extras = @import("extras");
-const impl = extras.globalOption(type, "tracer_impl") orelse none;
+
+const impl = if (@hasDecl(root, "tracer_impl"))
+    @field(root, "tracer_impl")
+else
+    none;
 
 threadlocal var started = false;
 
