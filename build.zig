@@ -17,7 +17,8 @@ pub fn build(b: *std.Build) void {
 
 fn addTest(b: *std.Build, target: std.Build.ResolvedTarget, mode: std.builtin.OptimizeMode, mod: *std.Build.Module, comptime backend: u8) void {
     const options = b.addOptions();
-    options.addOption(usize, "src_file_trimlen", std.fs.path.dirname(std.fs.path.dirname(@src().file).?).?.len);
+    const parent_dir = std.fs.path.dirname(std.fs.path.dirname(@src().file) orelse "") orelse "";
+    options.addOption(usize, "src_file_trimlen", parent_dir.len);
     options.addOption(u8, "backend", backend);
 
     const exe = b.addExecutable(.{
